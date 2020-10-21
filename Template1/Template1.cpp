@@ -14,8 +14,34 @@
 	//glColor4f(1.0f, 0.0f, 1.0f, 1.0f);//magenta
 	//glColor4f(1.0f, 1.0f, 0.0f, 1.0f);//yellow
 
+void DrawTriangle(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
+	glBegin(GL_POLYGON);// OpenGLa state
+	glColor4f(red, green, blue, alpha);//blue
+	glVertex2f(0.0f, 100.0f);
+	glColor4f(red, green, blue, alpha);//blue
+	glVertex2f(0.0f, 0.0f);
+	glColor4f(red, green, blue, alpha);//blue
+	glVertex2f(100.0f, 0.0f);
+	glEnd();
 
-void DrawTriangleBlue(void) {
+}
+void DrawQuarter(void) {
+	glTranslated(0, 0, 0);
+	DrawTriangle(0.0f, 0.0f, 1.0f, 1.0f);
+	glTranslated(0, 100, 0);
+	DrawTriangle(0.0f, 1.0f, 0.0f, 1.0f);
+	glTranslated(0, 100, 0);
+	DrawTriangle(1.0f, 0.0f, 0.0f, 1.0f);
+	glTranslated(100, -100, 0);
+	DrawTriangle(1.0f, 1.0f, 0.0f, 1.0f);
+	glTranslated(0, -100, 0);
+	DrawTriangle(1.0f, 0.5f, 0.0f, 1.0f);
+	glTranslated(100, 0, 0);
+	DrawTriangle(1.0f, 0.0f, 1.0f, 1.0f);
+
+}
+
+/*void DrawTriangleBlue(void) {
 	glBegin(GL_POLYGON);// OpenGL’a state
 	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);//blue
 	glVertex2f(0.0f, 100.0f);
@@ -26,7 +52,7 @@ void DrawTriangleBlue(void) {
 	glEnd();
 }
 
-void DrawTriangleGreen(void) {
+//void DrawTriangleGreen(void) {
 	glBegin(GL_POLYGON);// OpenGL’a state
 	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);//Green
 	glVertex2f(0.0f, 100.0f);
@@ -80,7 +106,7 @@ void DrawTriangleYellow(void) {
 	glVertex2f(100.0f, 0.0f);
 	glEnd();
 }
-
+*/
 
 
 void MyDisplay(void) {
@@ -89,8 +115,20 @@ void MyDisplay(void) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glShadeModel(GL_SMOOTH);
 	glTranslated(0, 0, 0);
+
+
+	for (int i = 0; i < 4; i++) {
+
+		glPushMatrix();
+		glRotated(i * 90, 0, 0, 100);
+		DrawQuarter();
+		glPopMatrix();
+		glLoadIdentity();
+		glPushMatrix();
+	}
+
 //--------------blue triangle----------//
-	DrawTriangleBlue();
+/*	DrawTriangleBlue();
 	glRotated(90, 0, 0, 100);
 	DrawTriangleBlue();
 	glRotated(180, 0, 0, 100);
@@ -161,7 +199,7 @@ void MyDisplay(void) {
 	glRotated(270, 0, 0, 100);
 	glTranslated(200, 0, 0);
 	DrawTriangleYellow();
-
+	*/
 
 	// The end of scene
 	glFlush();//start processing buffered OpenGL routines
