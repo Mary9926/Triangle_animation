@@ -17,14 +17,39 @@
 
 
 const double lengthOfTriangle = 100.0f;
-
-
 double angle = 0;
+double spread = 50;
+double spreadStep = 2;
+const double SPREAD_LIMIT = 60.00;
+bool SHOULD_INCRESE = true;
+
+void Timer(int) {
+
+	angle += 180 / SPREAD_LIMIT * 2;
+	if (spread >= SPREAD_LIMIT || spread <= 0)
+	{
+		spreadStep *= -1;
+	}
+	spread += spreadStep;
+
+	glutPostRedisplay();
+	//glutTimerFunc(1000, timer, 0);
+}
 
 void CenterOfMassRotation() {
 	glTranslated(lengthOfTriangle / 3, lengthOfTriangle / 3, 0);
-	glRotated(angle, 0, 0, 1);
+	glRotated(angle, 0, 0, 1); 
 	glTranslated(-lengthOfTriangle / 3, -lengthOfTriangle / 3, 0);
+}
+
+void SpreadOut(float xRate, float yRate) {
+	glTranslated(spread * xRate, spread * yRate, 0);
+}
+
+void QuarterMovment(void) {
+	glRotated(angle, 0, 0, 1);
+	//DrawQuarter();
+
 }
 
 void DrawTriangle(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
@@ -38,61 +63,56 @@ void DrawTriangle(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 	glEnd();
 
 }
-void DrawQuarter(void) {
+
+void DrawQuarter(bool shouldRotate, bool shouldSpread/* bool shouldRotateOrigin*/) {
+	// blue
 	glPushMatrix();
 	glTranslated(0, 0, 0);
-	if (true) CenterOfMassRotation();
+	if (shouldRotate) CenterOfMassRotation();
+	if (shouldSpread) SpreadOut(1.0, 1.0);
 	DrawTriangle(0.0f, 0.0f, 1.0f, 1.0f);
 	glPopMatrix();
 
+	// green
 	glTranslated(0, 100, 0);
-
 	glPushMatrix();
-	if (true) CenterOfMassRotation();
+	if (shouldRotate) CenterOfMassRotation();
+	if (shouldSpread) SpreadOut(1.0, 2.0);
 	DrawTriangle(0.0f, 1.0f, 0.0f, 1.0f);
 	glPopMatrix();
 
+	// red
 	glTranslated(0, 100, 0);
 	glPushMatrix();
-	if (true) CenterOfMassRotation();
+	if (shouldRotate) CenterOfMassRotation();
+	if (shouldSpread) SpreadOut(1.0, 3.0);
 	DrawTriangle(1.0f, 0.0f, 0.0f, 1.0f);
 	glPopMatrix();
 
+	// yellow
 	glTranslated(100, -100, 0);
 	glPushMatrix();
-	if (true) CenterOfMassRotation();
+	if (shouldRotate) CenterOfMassRotation();
+	if (shouldSpread) SpreadOut(2.0, 2.0);
 	DrawTriangle(1.0f, 1.0f, 0.0f, 1.0f);
 	glPopMatrix();
 
+	// orange
 	glTranslated(0, -100, 0);
 	glPushMatrix();
-	if (true) CenterOfMassRotation();
+	if (shouldRotate) CenterOfMassRotation();
+	if (shouldSpread) SpreadOut(2.0, 1.0);
 	DrawTriangle(1.0f, 0.5f, 0.0f, 1.0f);
 	glPopMatrix();
 
+	// magenta
 	glTranslated(100, 0, 0);
 	glPushMatrix();
-	if (true) CenterOfMassRotation();
+	if (shouldRotate) CenterOfMassRotation();
+	if (shouldSpread) SpreadOut(3.0, 1.0);
 	DrawTriangle(1.0f, 0.0f, 1.0f, 1.0f);
 	glPopMatrix();
-	//
-
 }
-
-
-
-void Timer(int) {
-	angle += 2;
-	glutPostRedisplay();
-	//glutTimerFunc(1000, timer, 0);
-}
-
-void QuarterMovment(void) {
-	glRotated(angle, 0, 0, 1);
-	DrawQuarter();
-
-}
-
 
 void MyDisplay(void) {
 	// The new scene
@@ -102,20 +122,16 @@ void MyDisplay(void) {
 	glTranslated(0, 0, 0);
 
 	for (int i = 0; i < 4; i++) {
-	
 		glRotated(i * 90, 0, 0, 100);
 		QuarterMovment();
-		//DrawQuarter();
+		DrawQuarter(true, true); //cener of mass
 		glLoadIdentity();
-		
 	}
-
 
 	// The end of scene
 	glFlush();//start processing buffered OpenGL routines
 	glutTimerFunc(20, Timer, 0);
 }
-
 
 void MyInit(void) {
 	glClearColor(0.0, 0.0, 0.0, 0.0);//select clearing (background) color
@@ -127,9 +143,6 @@ void MyInit(void) {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();//=1
 }
-
-
-
 
 int main(int argc, char** argv) { //<- for normal API
 	glutInit(&argc, argv);
