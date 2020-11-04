@@ -64,7 +64,7 @@ void DrawTriangle(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha) {
 
 }
 
-void DrawQuarter(bool shouldRotate, bool shouldSpread/* bool shouldRotateOrigin*/) {
+void DrawQuarter(bool shouldRotate, bool shouldSpread) {
 	// blue
 	glPushMatrix();
 	glTranslated(0, 0, 0);
@@ -77,7 +77,7 @@ void DrawQuarter(bool shouldRotate, bool shouldSpread/* bool shouldRotateOrigin*
 	glTranslated(0, 100, 0);
 	glPushMatrix();
 	if (shouldRotate) CenterOfMassRotation();
-	if (shouldSpread) SpreadOut(1.0, 2.0);
+	if (shouldSpread) SpreadOut(1.0, 4.0);
 	DrawTriangle(0.0f, 1.0f, 0.0f, 1.0f);
 	glPopMatrix();
 
@@ -85,7 +85,7 @@ void DrawQuarter(bool shouldRotate, bool shouldSpread/* bool shouldRotateOrigin*
 	glTranslated(0, 100, 0);
 	glPushMatrix();
 	if (shouldRotate) CenterOfMassRotation();
-	if (shouldSpread) SpreadOut(1.0, 3.0);
+	if (shouldSpread) SpreadOut(1.0, 7.0);
 	DrawTriangle(1.0f, 0.0f, 0.0f, 1.0f);
 	glPopMatrix();
 
@@ -93,7 +93,7 @@ void DrawQuarter(bool shouldRotate, bool shouldSpread/* bool shouldRotateOrigin*
 	glTranslated(100, -100, 0);
 	glPushMatrix();
 	if (shouldRotate) CenterOfMassRotation();
-	if (shouldSpread) SpreadOut(2.0, 2.0);
+	if (shouldSpread) SpreadOut(4.0, 4.0);
 	DrawTriangle(1.0f, 1.0f, 0.0f, 1.0f);
 	glPopMatrix();
 
@@ -101,7 +101,7 @@ void DrawQuarter(bool shouldRotate, bool shouldSpread/* bool shouldRotateOrigin*
 	glTranslated(0, -100, 0);
 	glPushMatrix();
 	if (shouldRotate) CenterOfMassRotation();
-	if (shouldSpread) SpreadOut(2.0, 1.0);
+	if (shouldSpread) SpreadOut(4.0, 1.0);
 	DrawTriangle(1.0f, 0.5f, 0.0f, 1.0f);
 	glPopMatrix();
 
@@ -109,7 +109,7 @@ void DrawQuarter(bool shouldRotate, bool shouldSpread/* bool shouldRotateOrigin*
 	glTranslated(100, 0, 0);
 	glPushMatrix();
 	if (shouldRotate) CenterOfMassRotation();
-	if (shouldSpread) SpreadOut(3.0, 1.0);
+	if (shouldSpread) SpreadOut(7.0, 1.0);
 	DrawTriangle(1.0f, 0.0f, 1.0f, 1.0f);
 	glPopMatrix();
 }
@@ -124,7 +124,7 @@ void MyDisplay(void) {
 	for (int i = 0; i < 4; i++) {
 		glRotated(i * 90, 0, 0, 100);
 		QuarterMovment();
-		DrawQuarter(true, true); //cener of mass
+		DrawQuarter(true, true); //cener of mass //spread
 		glLoadIdentity();
 	}
 
